@@ -1,0 +1,6 @@
+{
+    "LEVEL": "test",
+    "DB_URI": "mongodb://localhost:27017/app_db_test",
+    "PORT": 3000,
+    "JWT_SICRET": "besmellah"
+}

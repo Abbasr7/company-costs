@@ -1,0 +1,386 @@
+{{#unless ispart}}
+{{> panel/panel_header}}
+
+{{> panel/panel_sidebar}}
+
+{{> panel/panel_main}}
+
+<div id="result">
+    {{/unless}}
+
+    <div class="col-xl-10 order-xl-1">
+        <div class="card">
+            <div class="card-header">
+                <div class="row align-items-center">
+                    <div class="col-8">
+                        <h3 class="mb-0">تعریف پرسنل </h3>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <form class="estimate needs-validation">
+                    <h6 class="heading-small text-muted mb-4">اطلاعات خواسته شده را وارد کنید</h6>
+                    <div class="pl-lg-4">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-count">نام شرکت</label>
+                                    <input type="text" class="form-control" name="unit" id="unit"
+                                        title="یک نام برای شرکت انتخاب کنید" autocomplete="on" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <select class="form-select form-control text-primary" name="jobTitle"
+                                    aria-label="انتخاب عنوان شغلی...">
+                                    {{#each jobTitles}}
+                                    <option value="{{title}}">{{title}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                            <div class="col-lg-6">
+                                <select class="form-select form-control" name="level" aria-label="انتخاب رده شغلی...">
+                                    {{#each levels}}
+                                    <option value="{{title}}">{{title}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="count">تعداد</label>
+                                    <input type="number" class="form-control" name="count" id="count" value="1"
+                                        required>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="salary">حقوق (ماهیانه)</label>
+                                    <input type="text" class="form-control num" name="salary" id="salary"
+                                        autocomplete="on" required>
+                                    <div class="invalid-feedback feedback">
+                                        فقط عدد وارد کنید.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="salary">پایه حقوق سال جاری</label>
+                                    <input type="text" class="form-control num" name="minsalary" id="minsalary"
+                                        autocomplete="on" required>
+                                    <div class="invalid-feedback feedback">
+                                        فقط عدد وارد کنید.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="my-4" />
+                    <div class="col-4 text-right" style="display: -webkit-inline-box;">
+                        <button class="btn submit btn-md btn-success">افزودن</button>
+                        <div class="loding"></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {{#each unit as | units |}}
+    <div class="row data-table-result" data-unit="{{trimWords units.unit '_'}}" {{#unless ../data}}
+        style="display: none;" {{/unless}}>
+        <div class="col">
+            <div class="card">
+                <!-- Card header -->
+                <div class="card-header border-0">
+                    <h3 class="mb-0 unitlist">لیست پرسنل شرکت {{units.unit}}</h3>
+                </div>
+                <!-- Light table -->
+                <div class="table-responsive">
+                    <table class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>عنوان شغلی</th>
+                                <th scope="col" class="sort" data-sort="name">رده شغلی</th>
+                                <th scope="col" class="sort" data-sort="status">حقوق</th>
+                                <th scope="col">تعداد پرسنل</th>
+                                <th scope="col">عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody class="list" data-unit="{{trimWords units.unit '_'}}">
+                            {{#each ../data as | datas |}}
+                            {{#if_eq units.unit datas.unit }}
+                            <tr data-id="{{_id}}">
+                                <th scope="row" class="unit" data-unit="{{unit}}">
+                                    <div class="media align-items-center">
+                                        <a href="#" class="avatar rounded-circle ml-3">
+                                            <img alt="Image placeholder" src="../assets/img/qk.png">
+                                        </a>
+                                        <div class="media-body">
+                                            <span class="name mb-0 text-sm">{{jobTitle}}</span>
+                                        </div>
+                                    </div>
+                                </th>
+                                <td>
+                                    <span class="badge badge-dot mr-4">
+                                        <i class="bg-success"></i>
+                                        <span class="status"><b>{{level}}</b></span>
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <b class="text-danger"> {{numWcomma salary}} </b>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <b class="text-primary"> {{count}} </b>
+                                    </div>
+                                </td>
+                                <td class="text-right" id="operations">
+                                    <div class="dropdown">
+                                        <a class="btn btn-sm btn-icon-only text-light" href="#" role="button"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                            <a class="dropdown-item text-danger" href="#">حذف کردن</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            {{/if_eq}}
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Card footer -->
+                <div class="card-footer py-4">
+                    <button class="btn btn-primary toEstimate">برآورد هزینه‌ها</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+
+    <div class="row data-table estimateResult" style="display: none;">
+        <div class="col">
+            <div class="card">
+                <!-- Card header -->
+                <div class="card-header border-0">
+                    <h3 class="mb-0 unitname">گزارش هزینه های پرسنل برای شرکت</h3>
+                </div>
+                <!-- Light table -->
+                <div class="table-responsive">
+                    <table class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col" class="sort" data-sort="jobtitle">عنوان شغلی</th>
+                                <th scope="col" class="sort" data-sort="level">رده شغلی</th>
+                                <th scope="col" class="sort" data-sort="count">تعداد پرسنل</th>
+                                <th scope="col">حقوق سالانه </th>
+                                <th scope="col">حق بیمه سالانه</th>
+                                <th scope="col">پاداش سالانه</th>
+                                <th scope="col">عیدی</th>
+                                <th scope="col">خروجی نقدینگی یک ماهه</th>
+                                <th scope="col"> مجموع حقوق ومزایا سالانه</th>
+                            </tr>
+                        </thead>
+                        <tbody id="estimateResult">
+
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Card footer -->
+                <div class="card-footer py-4">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row data-table estimateResult" style="display: none;">
+        <div class="col">
+            <div class="card">
+                <!-- Card header -->
+                <div class="card-header border-0">
+                    <h3 class="mb-0">گزارش کلی هزینه های یک ساله شرکت</h3>
+                </div>
+                <!-- Light table -->
+                <div class="table-responsive">
+                    <table class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col" class="sort" data-sort="jobtitle">حمع کل پرسنل</th>
+                                <th scope="col" class="sort" data-sort="level">مجموع حقوق کل پرسنل</th>
+                                <th scope="col" class="sort" data-sort="count">مجموع حق بیمه</th>
+                                <th scope="col">مجموع پاداش و اضافه‌کاری</th>
+                                <th scope="col">مجموع عیدی</th>
+                                <th scope="col">جمع کل</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sumTable">
+
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Card footer -->
+                <div class="card-footer py-4">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {{#unless ispart}}
+</div>
+
+{{> panel/panel_footer}}
+{{/unless}}
+
+<script>
+    var url_string = window.location.href;
+    var newurl = url_string.split('?');
+    if (newurl.length > 1) { window.location.href = newurl[0] };
+
+    $(document).ready(function () {
+        if (sessionStorage.getItem('unit')) $('.estimate #unit').val(sessionStorage.getItem('unit'));
+
+        $('.num').keyup(function (e) {
+            if (!$.isNumeric($(this).val())) {
+                $('.feedback').fadeIn();
+                $(this).val('');
+            } else {
+                $('.feedback').removeClass("invalid-feedback").addClass('valid-feedback');
+            }
+        });
+        // save Data
+        $('form.estimate').on('submit', function (e) {
+            e.preventDefault();
+            $(this).siblings('div').html(window.loader);
+            let unit = $('.estimate #unit').val() ? $('.estimate #unit').val() : 'بینام'; sessionStorage.setItem('unit', unit);
+            let jobTitle = $("select[name='jobTitle']").val();
+            let level = $("select[name='level']").val();
+            let count = toEnglishNumber($('#count').val());
+            let salary = toEnglishNumber($('.estimate #salary').val());
+            let minsalary = toEnglishNumber($('.estimate #minsalary').val());
+            let a = [];
+            for (let i of $('.num')) {
+                if (!$.isNumeric(i.value)) {
+                    $('.invalid-feedback').fadeIn();
+                    $('.loader--style3').remove();
+                } else {
+                    a.push(i.value)
+                };
+                console.log(a, $('.num').length);
+            }
+            if ($('.num').length == a.length) {
+                $('.feedback').removeClass("invalid-feedback").addClass('valid-feedback');
+                $.ajax({
+                    method: "POST",
+                    url: "/panel/estimate",
+                    data: { unit: unit, jobTitle: jobTitle, level: level, count: count, salary: salary, minsalary: minsalary },
+                    statusCode: {
+                        200: (e) => {
+                            console.log("Done!");
+                        },
+                        404: function () {
+                            alert("page not found");
+                        }
+                    }
+                }).done(function (res) {
+                    $('.loader--style3').remove();
+                    $('.data-table-result').fadeIn();
+                    console.log($(".list").length);
+                    if ($(`tbody[data-unit=${trimWords(unit, '_')}]`).length == 0) {
+                        window.location.pathname = '/panel/estimate';
+                    } else {
+                        let newRow = `<tr>
+                    <th scope="row">
+                      <div class="media align-items-center">
+                        <a href="#" class="avatar rounded-circle ml-3">
+                          <img alt="Image placeholder" src="../assets/img/qk.png">
+                        </a>
+                        <div class="media-body">
+                          <span class="name mb-0 text-sm">${res.data.jobTitle}</span>
+                        </div>
+                      </div>
+                    </th>
+                    <td>
+                      <span class="badge badge-dot mr-4">
+                        <i class="bg-success"></i>
+                        <span class="status"><b>${res.data.level}</b></span>
+                      </span>
+                    </td>
+                    <td>
+                      <div class="d-flex align-items-center">
+                        <b class="text-danger">${numWcomma(res.data.salary)}</b>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="d-flex align-items-center">
+                        <b class="text-success">${res.data.count}</b>
+                      </div>
+                    </td>
+                    <td class="text-right" id="operations">
+                      <div class="dropdown">
+                        <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <i class="fas fa-ellipsis-v"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                          <a class="dropdown-item text-danger" href="#">حذف کردن</a>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>`;
+                        $(`tbody[data-unit=${trimWords(unit, '_')}]`).prepend(newRow);
+                        $(`tbody[data-unit=${trimWords(unit, '_')}] .unitlist`).html(`لیست پرسنل شرکت ${unit}`);
+                    }
+                });
+            }
+        });
+
+        // Remove Item
+        $('#operations .text-danger').click(function (e) {
+            e.preventDefault();
+            let unit = $(this).parents('div.card').find('.unit').attr('data-unit');
+            let _id = $(this).parents('tr').attr('data-id');
+            $.ajax({
+                url: pathname,
+                type: 'DELETE',
+                data: { _id: _id, unit: unit },
+                statusCode: {
+                    200: (e) => {
+                        $(this).parents('tr').remove();
+                        if (e.data[1] == '0') {
+                            $(`div[data-unit=${unit}]`).remove();
+                        }
+                    },
+                    404: function () {
+                        alert("page not found");
+                    }
+                }
+            });
+        });
+        // Estimate Costs
+        $('.toEstimate').on('click', function (e) {
+            let unit = $(this).parents('div.card').find('.unit').attr('data-unit');
+            $.ajax({
+                method: "POST",
+                url: "/panel/toestimate",
+                data: { unit: unit },
+                statusCode: {
+                    200: (e) => {
+                        console.log("estimate done", e)
+                    },
+                    400: () => {
+                        alert("Page not found");
+                    }
+                }
+            }).done((res) => {
+                $('.estimateResult').fadeIn();
+                $("#estimateResult").html(res.data[0]);
+                $("#sumTable").html(res.data[1]);
+            });
+        });
+
+    });
+</script>

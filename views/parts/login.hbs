@@ -1,0 +1,37 @@
+<!-- partial:index.partial.html -->
+{{#if msg}}
+<link rel="stylesheet" href="/assets/css/notify.css" type="text/css">
+{{/if}}
+<link rel="stylesheet" href="../assets/css/login.css">
+<div class="reg-login">
+	<div class="main ">
+		<input type="checkbox" id="chk" aria-hidden="true">
+
+		<div class="signup">
+			<form action="/api/register" method="POST">
+				<label for="chk" aria-hidden="true">ثبت نام</label>
+				<input type="text" name="username" placeholder="User name" required="">
+				<input type="text" name="email" placeholder="Email" required="">
+				<input type="password" name="password" placeholder="Password" required="">
+				<input type="text" name="location" placeholder="Location" id="location">
+				<button type="submit">ثبت نام </button>
+			</form>
+		</div>
+
+		<div class="login">
+			<form action="/api/login" method="POST">
+				<label for="chk" aria-hidden="true">ورود</label>
+				<input type="text" name="username" id="username" placeholder="Email or Username" required="">
+				<input type="password" name="password" id="password" placeholder="Password" required="">
+				<button type="submit" value="Login"> ورود</button>
+			</form>
+		</div>
+	</div>
+</div>
+{{#if msg}}
+<script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+<script src="/assets/js/notify.js"></script>
+<script>
+	$.notify("{{msg}}", { align: "right", delay: 4000, verticalAlign: "top", color: "#fff", background: "#D44950" });
+</script>
+{{/if}}

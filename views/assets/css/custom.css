@@ -1,0 +1,33 @@
+@font-face {
+    font-family: 'yekan';
+    src: url(iranyekanwebmedium.ttf);
+}
+
+@font-face {
+    font-family: 'iransans';
+    src: url(IRANSansWeb.ttf);
+}
+
+body {
+    font-family: 'iransans', 'yekan';
+}
+
+.loader {
+    height: 50px;
+    width: 20%;
+    text-align: center;
+    padding: 0 1em;
+    margin: 0 auto 1em;
+    display: inline-block;
+    vertical-align: top;
+}
+
+
+/*
+    Set the color of the icon
+  */
+
+svg path,
+svg rect {
+    fill: #FF6700;
+}

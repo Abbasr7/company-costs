@@ -1,0 +1,24 @@
+{
+    "name": "pnu_projact",
+    "version": "1.0.0",
+    "description": "Ostad simin ghasemi",
+    "main": "index.js",
+    "scripts": {
+        "test": "export NODE_ENV=test && npm start",
+        "dev": "export NODE_ENV=development && npm start",
+        "pro": "export NODE_ENV=production && node index.js",
+        "start": "node index.js"
+    },
+    "author": "Abbas Aghayari",
+    "license": "ISC",
+    "dependencies": {
+        "bcrypt": "^5.0.1",
+        "config": "^3.3.7",
+        "express": "^4.17.2",
+        "hbs": "^4.2.0",
+        "jsonwebtoken": "^8.5.1",
+        "lodash": "^4.17.21",
+        "mongoose": "^6.1.4",
+        "store": "^2.0.12"
+    }
+}
